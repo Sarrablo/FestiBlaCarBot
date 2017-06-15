@@ -3,7 +3,7 @@ class Db:
     def __init__(self):
         self.con = sqlite3.connect("festiblacar")
         self.cursor = self.con.cursor()
-    def createDb(self):
+    def create_db(self):
         #Usuarios
         sql = '''CREATE TABLE IF NOT EXISTS
                 Users
@@ -45,10 +45,21 @@ class Db:
 
         self.cursor.execute(sql)
 
-    def executeSQL(self, sql):
+        #User_Trips
+
+        sql = '''CREATE TABLE IF NOT EXISTS
+                user_trips
+                (idTrip INT,
+                idUser INT,
+                 )'''
+
         self.cursor.execute(sql)
 
-    def insertUSer(self, idTgm, nameTgm):
+
+    def execute_SQL(self, sql):
+        self.cursor.execute(sql)
+
+    def insert_uSer(self, idTgm, nameTgm):
         if len(self.getUserById(idTgm)) <= 0:
             sql = '''INSERT INTO Users (idTgm, nameTgm)
                     VALUES
@@ -56,33 +67,29 @@ class Db:
             self.cursor.execute(sql)
             self.con.commit()
 
-    def insertTrip(self,_from,to,date,price):
+    def insert_trip(self,_from,to,date,price):
         sql = '''INSERT INTO Trips (idFrom, idTo, Date, Price)
                 VALUES
                 (%s,%s,'%s',%s )'''%(_from,to,date,price)
         self.cursor.execute(sql)
         self.con.commit()
     
-    def getUserById(self, idTgm):
+    def get_user_by_id(self, idTgm):
         sql = '''SELECT * FROM
             Users WHERE idTgm = %s'''%(idTgm)
         self.cursor.execute(sql)
-        foo = []
-        for i in self.cursor:
-            foo.append(i)
-        return foo
+        return [i for i in self.cursor]
 
-    def getAllUsers(self):
+    def get_all_users(self):
         sql = '''SELECT * FROM
             Users '''
         self.cursor.execute(sql)
-        foo = []
-        for i in self.cursor:
-            foo.append(i)
-        return foo
+        return [i for i in self.cursor]
 
-    def getAllTrips(self):
+    def get_all_trips(self):
         sql = '''SELECT * FROM
                 Trips '''
         self.cursor.execute(sql)
-        return [i for i in self.cursor]                             
+        return [i for i in self.cursor] 
+
+    def 
