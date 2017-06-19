@@ -59,7 +59,7 @@ class Db:
     def execute_SQL(self, sql):
         self.cursor.execute(sql)
 
-    def insert_uSer(self, idTgm, nameTgm):
+    def insert_user(self, idTgm, nameTgm):
         if len(self.getUserById(idTgm)) <= 0:
             sql = '''INSERT INTO Users (idTgm, nameTgm)
                     VALUES
@@ -73,7 +73,19 @@ class Db:
                 (%s,%s,'%s',%s )'''%(_from,to,date,price)
         self.cursor.execute(sql)
         self.con.commit()
+
+        sql = '''SELECT max(idTrip) from Trips'''
+        self.cursor.execute(sql)
+        return [i for i in self.cursor]
     
+    def insert_user_trip(self, idUser, idTrip):
+        sql = '''INSERT INTOuser_trips(idUser,idTrip=
+        VALUES (%s,%s)'''%(idUser,idTrip)
+
+        self.cursor.execute(sql)
+        self.con.commit()
+
+
     def get_user_by_id(self, idTgm):
         sql = '''SELECT * FROM
             Users WHERE idTgm = %s'''%(idTgm)
@@ -92,4 +104,10 @@ class Db:
         self.cursor.execute(sql)
         return [i for i in self.cursor] 
 
-    def 
+    def insert_full_trip(self,_from,to,date,price,idTgm):
+        idUser = self.get_user_by_id(idTgm)[0]
+        idTrip = self.insert_trip(_from,to,date, price)
+        self.insert_user_trip(idUser, idTrip)
+
+
+
