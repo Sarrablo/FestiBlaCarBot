@@ -33,12 +33,3 @@ class TripJournal():
         
         self.step += 1
 
-tp = TripJournal(123)
-print(tp.out())
-tp.input('Zaragoza')
-print(tp.out())
-tp.input('Madrid')
-print(tp.out())
-
-
-
