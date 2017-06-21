@@ -1,7 +1,7 @@
 import sqlite3
 class Db:
     def __init__(self):
-        self.con = sqlite3.connect("festiblacar")
+        self.con = sqlite3.connect("festiblacar", check_same_thread=False)
         self.cursor = self.con.cursor()
     def create_db(self):
         #Usuarios
@@ -50,7 +50,7 @@ class Db:
         sql = '''CREATE TABLE IF NOT EXISTS
                 user_trips
                 (idTrip INT,
-                idUser INT,
+                idUser INT
                  )'''
 
         self.cursor.execute(sql)
@@ -60,7 +60,7 @@ class Db:
         self.cursor.execute(sql)
 
     def insert_user(self, idTgm, nameTgm):
-        if len(self.getUserById(idTgm)) <= 0:
+        if len(self.get_user_by_id(idTgm)) <= 0:
             sql = '''INSERT INTO Users (idTgm, nameTgm)
                     VALUES
                    (%s,'%s')'''%(idTgm,nameTgm)
@@ -68,9 +68,10 @@ class Db:
             self.con.commit()
 
     def insert_trip(self,_from,to,date,price):
-        sql = '''INSERT INTO Trips (idFrom, idTo, Date, Price)
+        sql = '''INSERT INTO Trips(idFrom, idTo, Date, Price)
                 VALUES
-                (%s,%s,'%s',%s )'''%(_from,to,date,price)
+                ('%s' , '%s' , '%s' , %s )'''%(_from,to,date,price)
+        print(sql)
         self.cursor.execute(sql)
         self.con.commit()
 
@@ -79,9 +80,9 @@ class Db:
         return [i for i in self.cursor]
     
     def insert_user_trip(self, idUser, idTrip):
-        sql = '''INSERT INTOuser_trips(idUser,idTrip=
-        VALUES (%s,%s)'''%(idUser,idTrip)
-
+        sql = '''INSERT INTO user_trips (idUser,idTrip)
+        VALUES ( %s , %s )'''%(idUser,idTrip)
+        print(sql)
         self.cursor.execute(sql)
         self.con.commit()
 
@@ -105,9 +106,9 @@ class Db:
         return [i for i in self.cursor] 
 
     def insert_full_trip(self,_from,to,date,price,idTgm):
-        idUser = self.get_user_by_id(idTgm)[0]
+        idUser = self.get_user_by_id(idTgm)[0] 
         idTrip = self.insert_trip(_from,to,date, price)
-        self.insert_user_trip(idUser, idTrip)
+        self.insert_user_trip(idUser[0], idTrip[0][0])
 
 
 

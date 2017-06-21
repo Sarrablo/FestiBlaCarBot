@@ -10,14 +10,7 @@ class TripJournal():
         self.hour = ''
         self.price = 0
         self.desc = ''
-        self.steps = { 
-                0 : "Desde donde",
-                1 : "A donde",
-                2 : "Fecha",
-                3 : "Hora",
-                4 : "Precio",
-                5 : "Descripcion"
-                }
+        self.steps = ("Desde donde","A donde","Fecha","Hora","Precio","Descripcion","Escribe End para finalizar")
         self.fields = {0 : self._from,
                 1 : self.to,
                 2 : self.date,
@@ -30,6 +23,6 @@ class TripJournal():
 
     def input(self,data):
         self.fields[self.step]= data
-        
+        print(self.fields)
         self.step += 1
 
