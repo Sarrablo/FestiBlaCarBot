@@ -40,7 +40,9 @@ class Db:
                 idFrom INT,
                 idTo INT,
                 Date DATE,
-                Price INT
+                Time TIME,
+                Price INT,
+                Description TEXT
                 )'''
 
         self.cursor.execute(sql)
@@ -67,10 +69,10 @@ class Db:
             self.cursor.execute(sql)
             self.con.commit()
 
-    def insert_trip(self,_from,to,date,price):
-        sql = '''INSERT INTO Trips(idFrom, idTo, Date, Price)
+    def insert_trip(self,_from,to,date,hour,price,description):
+        sql = '''INSERT INTO Trips(idFrom, idTo, Date, Time, Price, Description)
                 VALUES
-                ('%s' , '%s' , '%s' , %s )'''%(_from,to,date,price)
+                ('%s' , '%s' , '%s' ,'%s', %s,'%s' )'''%(_from,to,date,hour,price,description)
         print(sql)
         self.cursor.execute(sql)
         self.con.commit()
@@ -105,9 +107,9 @@ class Db:
         self.cursor.execute(sql)
         return [i for i in self.cursor] 
 
-    def insert_full_trip(self,_from,to,date,price,idTgm):
+    def insert_full_trip(self,_from,to,date,hour,price,desc,idTgm):
         idUser = self.get_user_by_id(idTgm)[0] 
-        idTrip = self.insert_trip(_from,to,date, price)
+        idTrip = self.insert_trip(_from,to,date,hour, price,desc)
         self.insert_user_trip(idUser[0], idTrip[0][0])
 
 
