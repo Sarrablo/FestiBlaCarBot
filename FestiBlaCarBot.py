@@ -13,7 +13,7 @@ token = f.read()
 f.close()
 print(token)
 TOKEN = token 
-bot = telebot.TeleBot('430791351:AAHC-M4rgsPLxfpeASMj3sz4Zy0bSMSgXdU') # Creamos el objeto de nuestro bot.
+bot = telebot.TeleBot('43079135PLxfpeASMj3sz4Zy0bSMSgXdU') # Creamos el objeto de nuestro bot.
 print (bot.get_me())
 timestamp = int(time.time())
 journals = []
